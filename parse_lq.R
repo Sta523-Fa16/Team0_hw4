@@ -28,23 +28,19 @@ for(i in seq_along(files))
     str_replace("Rooms: ", "") %>%
     as.integer()
   
-  map = page %>%
+  # Google link includes latitude first then longitude
+  lat_long = page %>%
     html_nodes(".minimap") %>%
     html_attr("src") %>%
-    str_split("\\|") %>%
-    .[[1]] %>%
-    .[2] %>%
-    str_split("\\&") %>%
-    .[[1]] %>%
-    .[1] %>%
-    str_split(",") %>%
-    .[[1]]
-  
+    str_match("\\|(-?[0-9]{1,2}\\.[0-9]+),(-?[0-9]{1,3}\\.[0-9]+)&")
+
   res[[i]] = data_frame(
     address = paste(hotel_info[1:2],collapse="\n"),
     phone = hotel_info[3] %>% str_replace("Phone: ", ""), 
     fax   = hotel_info[4] %>% str_replace("Fax: ", ""),
-    n_rooms = n_rooms
+    n_rooms = n_rooms,
+    lat   = lat_long[,2],
+    long  = lat_long[,3]
   )
   
   if (i>3)
