@@ -42,9 +42,9 @@ for(i in seq_along(files))
     lat   = lat_long[,2],
     long  = lat_long[,3]
   )
-  
-  if (i>3)
-    break
 }
 
 hotels = bind_rows(res)
+
+dir.create("data/",showWarnings = FALSE)
+save(hotels, file="data/lq.Rdata")

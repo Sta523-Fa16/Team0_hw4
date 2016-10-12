@@ -12,6 +12,8 @@ hotel_pages = page %>%
 
 dir.create("data/lq",recursive = TRUE,showWarnings = FALSE)
 
+hotel_pages = hotel_pages[1:100]
+
 for(hotel_page in hotel_pages)
 {
   hotel_url = paste0(site, hotel_page)
